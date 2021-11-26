@@ -4,6 +4,7 @@ import { StyleSheet, View, TouchableOpacity, TextInput } from "react-native";
 import { Row } from 'react-native-easy-grid';
 import RecordsOfWallet from './recordsOfWallet.js';
 import Clipboard from '@react-native-clipboard/clipboard';
+import { HeaderBackButton } from 'react-navigation';
 
 
 export default function UserCode({ route, navigation }) {
@@ -31,9 +32,26 @@ useEffect(() => {
     fetchData();
   }, [setData]);
   
+const navigationOptions = ({navigation}) => {
+  return{
+    headerLeft:(<HeaderBackButton onPress={()=>{navigation.push('RecordsOfWallet', {walletUuid: walletUuid, subsType: subsType})}}/>)
+ }
+}
+  
   const InviteCode = () => {
-  return (<View>
-            <Text style={{ textAlign: 'left', borderWidth:1 }}>
+  return (<View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start',
+  paddingTop: '50%'}}>
+  <View>
+              <Text style={{ textAlign: 'left', marginLeft:'5%'}}>
+               You can invite user to your wallet
+            </Text>
+ </View>
+   <View>
+              <Text style={{ textAlign: 'left', marginLeft:'5%'}}>
+               by sending this code:
+            </Text>
+ </View>
+            <Text style={{ textAlign: 'center', marginRight:'10%'}}>
                {data}
             </Text>
             </View>
@@ -51,10 +69,11 @@ return (
 <Form>
 <InviteCode/>
  <View style = {{flex: 1, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start'}}>
-<TouchableOpacity  onPress={copyToClipboard}>
+<TouchableOpacity onPress={copyToClipboard}> 
          <View>
-           <Text style={{ textAlign: 'right', borderWidth:1 }}>
-               Copy
+           <Text style={{ textAlign: 'center', marginLeft:'55%', borderWidth: 1, fontSize: 20, backgroundColor: 'black', color:'white',
+           marginTop: '10%' }}>
+               Copy the code
             </Text>
             </View>
          </TouchableOpacity>

@@ -1,6 +1,6 @@
 import React from 'react';
 //import HttpExample from './http_example.js'
-import WalletSubscriptionScreen from './screens/walletSubs.js'
+import WalletSubscriptionScreen from './screens/StartPage.js'
 
 const App = () => {
    return (

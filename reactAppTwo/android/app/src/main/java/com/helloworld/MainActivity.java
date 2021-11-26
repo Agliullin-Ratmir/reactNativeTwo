@@ -2,6 +2,11 @@ package com.helloworld;
 
 import com.facebook.react.ReactActivity;
 import android.os.Bundle;
+import android.app.Activity;
+import android.nfc.NfcAdapter;
+import android.os.Bundle;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends ReactActivity {
 

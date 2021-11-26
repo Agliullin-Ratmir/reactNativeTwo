@@ -3,6 +3,9 @@ import { Container, Header, Content, List, ListItem, Text, Form, Item, Input, Bu
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { Row } from 'react-native-easy-grid';
 
+
+
+
 export default function EditRecord({ route, navigation }) {
  const { title } = route.params;
   const { subsType } = route.params;
@@ -52,11 +55,13 @@ onChangeText={text => setNewSum(text)}/>
  <View style = {{flex: 1, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start'}}>
 <TouchableOpacity onPress={handleSubmit}>
          <View>
-           <Text style={{ textAlign: 'right', borderWidth:1 }}>
+           <Text style={{ textAlign: 'center', marginLeft:'55%', borderWidth: 1, fontSize: 20, backgroundColor: 'black', color:'white',
+           marginTop: '10%' }}>
                Submit
             </Text>
             </View>
          </TouchableOpacity>
+
       </View>
 </Form>
 </Content>

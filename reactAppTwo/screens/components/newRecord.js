@@ -3,6 +3,14 @@ import { Container, Header, Content, List, ListItem, Text, Form, Item, Input, Bu
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { Row } from 'react-native-easy-grid';
 import RecordsOfWallet from './recordsOfWallet.js';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { XStorage } from 'react-native-easy-app';
+
+
+
+  export const RNStorage = {
+       userUuid: null
+   };
 
 
 export default function NewRecord({ route, navigation }) {
@@ -12,13 +20,21 @@ export default function NewRecord({ route, navigation }) {
   const [sum, setSum] = useState("")
 const [details, setDetails] = useState("")
  const [data, setData] = useState();
+ 
+        const initCallback = () => {
+      console.log("userUuid from storage:");
+       console.log(RNStorage.userUuid);
+  };
+
+  XStorage.initStorage(RNStorage, AsyncStorage, initCallback); 
+ 
 const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
     	"details":details,
     	"title":title,
-    	"userUuid":"06e2097f-d5b9-407e-aec8-cc2f335708cb",
+    	"userUuid": RNStorage.userUuid,
     	"sum": sum,
     	"walletUuid": walletUuid
   	})
@@ -54,7 +70,8 @@ onChangeText={text => setSum(text)}/>
  <View style = {{flex: 1, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start'}}>
 <TouchableOpacity onPress={handleSubmit}>
          <View>
-           <Text style={{ textAlign: 'right', borderWidth:1 }}>
+           <Text style={{ textAlign: 'center', marginLeft:'55%', borderWidth: 1, fontSize: 20, backgroundColor: 'black', color:'white',
+           marginTop: '10%' }}>
                Submit
             </Text>
             </View>

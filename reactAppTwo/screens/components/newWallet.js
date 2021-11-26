@@ -2,18 +2,36 @@ import React, { useState, useEffect } from 'react';
 import { Container, Header, Content, List, ListItem, Text, Form, Item, Input, Button } from 'native-base';
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { Row } from 'react-native-easy-grid';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { XStorage } from 'react-native-easy-app';
+
+
+
+  export const RNStorage = {
+       userUuid: null
+   };
+
+
 export default function NewWallet({ route, navigation }) {
  const [title, setTitle] = useState("")
 const [description, setDescription] = useState("")
  const [data, setData] = useState();
+ 
+       const initCallback = () => {
+      console.log("userUuid from storage:");
+       console.log(RNStorage.userUuid);
+  };
+
+  XStorage.initStorage(RNStorage, AsyncStorage, initCallback); 
+ 
+ 
 const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        //body: {"description":description,"title":title,"ownerUuid":"06e2097f-d5b9-407e-aec8-cc2f335708cb"}
         body: JSON.stringify({
     	"description":description,
     	"title":title,
-    	"ownerUuid":"06e2097f-d5b9-407e-aec8-cc2f335708cb"
+    	"ownerUuid": RNStorage.userUuid
   	})
     };
  
@@ -42,7 +60,8 @@ onChangeText={text => setDescription(text)}/>
  <View style = {{flex: 1, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start'}}>
 <TouchableOpacity onPress={handleSubmit}>
          <View>
-           <Text style={{ textAlign: 'right', borderWidth:1 }}>
+           <Text style={{ textAlign: 'center', marginLeft:'55%', borderWidth: 1, fontSize: 20, backgroundColor: 'black', color:'white',
+           marginTop: '10%' }}>
                Submit
             </Text>
             </View>

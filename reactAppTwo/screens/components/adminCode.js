@@ -4,38 +4,71 @@ import { StyleSheet, View, TouchableOpacity, TextInput } from "react-native";
 import { Row } from 'react-native-easy-grid';
 import RecordsOfWallet from './recordsOfWallet.js';
 import Clipboard from '@react-native-clipboard/clipboard';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { XStorage } from 'react-native-easy-app';
 
+
+  export const RNStorage = {
+       userUuid: null
+   };
 
 export default function AdminCode({ route, navigation }) {
  const { walletUuid } = route.params;
  const { userUuid } = route.params;
+   const { subsType } = route.params;
  const [data, setData] = useState();
+ 
+const initCallback = () => {
+      console.log("userUuid from storage:");
+       console.log(RNStorage.userUuid);
+  };
+
+  XStorage.initStorage(RNStorage, AsyncStorage, initCallback); 
+ 
 const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
     	"userStatus":"ADMIN",
-    	"userUuid": userUuid,
+    	"userUuid": RNStorage.userUuid,
     	"walletUuid": walletUuid
   	})
     };
 
-useEffect(() => {
-  console.log(requestOptions);
-    console.log(walletUuid);
+const handleBack = () => {navigation.addListener("beforeRemove", e => {
+      console.log("Back");
+      navigation.push('WalletSubs');});
+      };
+
     const fetchData = async () => {
       const res = await fetch(
         'http://45.33.71.199:31000/wallet/getInviteCode', requestOptions
       );
       const json = await res.json();
+      console.log(json);
       setData(json.content);
     };
+
+useEffect(() => {
+handleBack();
     fetchData();
   }, [setData]);
   
+ 
   const InviteCode = () => {
-  return (<View>
-            <Text style={{ textAlign: 'left', borderWidth:1 }}>
+  return (<View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start',
+  paddingTop: '50%'}}>
+  <View>
+              <Text style={{ textAlign: 'left', marginLeft:'5%'}}>
+               You can invite admin to your wallet
+            </Text>
+ </View>
+   <View>
+              <Text style={{ textAlign: 'left', marginLeft:'5%'}}>
+               by sending this code:
+            </Text>
+ </View>
+            <Text style={{ textAlign: 'center', marginRight:'10%'}}>
                {data}
             </Text>
             </View>
@@ -54,8 +87,9 @@ return (
  <View style = {{flex: 1, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start'}}>
 <TouchableOpacity onPress={copyToClipboard}> 
          <View>
-           <Text style={{ textAlign: 'right', borderWidth:1 }}>
-               Copy
+           <Text style={{ textAlign: 'center', marginLeft:'55%', borderWidth: 1, fontSize: 20, backgroundColor: 'black', color:'white',
+           marginTop: '10%' }}>
+               Copy the code
             </Text>
             </View>
          </TouchableOpacity>
